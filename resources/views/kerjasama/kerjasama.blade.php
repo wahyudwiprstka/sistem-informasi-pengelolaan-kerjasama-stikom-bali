@@ -152,17 +152,15 @@
                         Mitra
                     </th>
                     </th>
-                    @can('admin')
-                        <th scope="col" class="px-6 py-3 text-center">
-                            Action
-                        </th>
-                    @endcan
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Action
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($documents as $index => $dokumen)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
                         <th scope="row"
                             class="p-4 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
                             {{ $documents->firstItem() + $index }}
@@ -210,6 +208,14 @@
                                         <img src="svg/delete.svg" alt="Detail" class="rounde" />
                                     </button>
                                 </form>
+                            </td>
+                        @endcan
+                        @can('user')
+                            <td class="px-6 py-4 text-center flex justify-center">
+                                <a href="/kerjasama/{{ $dokumen->id }}"
+                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    <img src="svg/detail.svg" alt="Detail" class="rounded" />
+                                </a>
                             </td>
                         @endcan
                     </tr>

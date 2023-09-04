@@ -14,6 +14,12 @@ use SDamian\Larasort\Larasort;
 
 class DokumenKerjasamaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index', 'show']]);
+        $this->middleware('admin', ['except' => ['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      */

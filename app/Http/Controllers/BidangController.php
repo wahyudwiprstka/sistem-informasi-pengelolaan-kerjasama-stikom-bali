@@ -8,6 +8,13 @@ use SDamian\Larasort\Larasort;
 
 class BidangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['index']]);
+        $this->middleware('admin', ['except' => ['index']]);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -74,6 +81,12 @@ class BidangController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $bidang = Bidang::find($id);
+        $bidang->nama_bidang = $request->nama_bidang;
+        $bidang->klasifikasi = $request->klasifikasi;
+        $bidang->pic = $request->pic;
+        $bidang->save();
+        return redirect('/bidang')->with('success', 'Bidang berhasil diedit');
     }
 
     /**

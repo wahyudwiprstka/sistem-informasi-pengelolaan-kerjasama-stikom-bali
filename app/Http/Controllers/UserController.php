@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['profile', 'editProfile', 'editProfileProcess']]);
+        $this->middleware('admin', ['except' => ['profile', 'editProfile', 'editProfileProcess']]);
+        $this->middleware('accepted', ['only' => ['profile', 'editProfile', 'editProfileProcess']]);
+    }
+
     public function profile()
     {
         $user = Auth::user();

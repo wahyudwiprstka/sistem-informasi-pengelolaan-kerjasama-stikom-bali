@@ -29,7 +29,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 */
 
 // Dashboard
-Route::get('/', [Controller::class, 'home'])->middleware('auth', 'verified', 'accepted');
+Route::get('/', [Controller::class, 'home'])->middleware('auth', 'accepted');
 
 // Auth
 Route::get('/login', [AuthController::class, 'show'])->name('login')->middleware('guest');
@@ -37,14 +37,14 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 // Mitra
-Route::resource('/mitra', MitraController::class)->only(['create', 'store', 'index', 'edit', 'update', 'destroy'])->middleware('auth', 'accepted');
+Route::resource('/mitra', MitraController::class)->except(['show'])->middleware('auth', 'accepted');
 
 // Kerjasama
-Route::get('/kerjasama/hampir-kadaluarsa', [KerjasamaController::class, 'hampirKadaluarsa'])->middleware('auth', 'accepted');
+Route::get('/kerjasama/hampir-kadaluarsa', [KerjasamaController::class, 'hampirKadaluarsa'])->middleware('admin');
 Route::resource('/kerjasama', DokumenKerjasamaController::class)->only(['create', 'store', 'index', 'show', 'destroy', 'edit', 'update'])->middleware('auth', 'accepted');
 
 // Bidang
-Route::resource('/bidang', BidangController::class)->only(['create', 'store', 'index', 'destroy', 'edit'])->middleware('auth', 'accepted');
+Route::resource('/bidang', BidangController::class)->only(['create', 'store', 'index', 'destroy', 'edit', 'update'])->middleware('auth', 'accepted');
 
 // Register
 Route::resource('/register', RegisterController::class)->only(['index', 'store'])->middleware('auth', 'accepted');
@@ -54,13 +54,13 @@ Route::get('/document/{document}/preview', [PDFController::class, 'show'])->midd
 Route::get('/document/download/{document}', [PDFController::class, 'show'])->middleware('auth', 'accepted');
 
 // User
-Route::get('/user/profile/', [UserController::class, 'profile'])->middleware('auth', 'accepted');
-Route::get('/users', [UserController::class, 'index'])->middleware('auth', 'accepted');
-Route::get('/users/request', [UserController::class, 'userRequest'])->middleware('auth', 'accepted');
-Route::get('/user/request/{id}/accept', [UserController::class, 'acceptUser'])->middleware('auth', 'accepted');
-Route::get('/user/edit-profile/', [UserController::class, 'editProfile'])->middleware('auth', 'accepted');
-Route::get('/user/{id}/role', [UserController::class, 'changeRole'])->middleware('auth', 'accepted');
-Route::get('/user/{id}/edit', [UserController::class, 'editUser'])->middleware('auth', 'accepted');
+Route::get('/user/profile/', [UserController::class, 'profile']);
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/request', [UserController::class, 'userRequest']);
+Route::get('/user/request/{id}/accept', [UserController::class, 'acceptUser']);
+Route::get('/user/edit-profile/', [UserController::class, 'editProfile']);
+Route::get('/user/{id}/role', [UserController::class, 'changeRole']);
+Route::get('/user/{id}/edit', [UserController::class, 'editUser']);
 Route::put('/user/{id}/edit-user', [UserController::class, 'editUserProcess']);
 Route::put('/user/edit-profile', [UserController::class, 'editProfileProcess']);
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
